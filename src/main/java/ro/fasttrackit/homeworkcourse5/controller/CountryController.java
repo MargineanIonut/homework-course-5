@@ -1,7 +1,6 @@
 package ro.fasttrackit.homeworkcourse5.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 import ro.fasttrackit.homeworkcourse5.model.Country;
 import ro.fasttrackit.homeworkcourse5.service.CountryService;
@@ -20,49 +19,54 @@ public class CountryController {
         this.countryService = countryService;
     }
 
+    @GetMapping("/allCountries")
+    public List<Country> listOfcountries(){
+        return countryService.countries();
+    }
+
     @GetMapping("/countries")
-    public ResponseEntity<List<Country>> countries(@RequestParam(required = false) String includeNeighbour,
-                                                   @RequestParam(required = false) String excludedNeighbour){
-        return new ResponseEntity<>(countryService.countries(includeNeighbour,excludedNeighbour), HttpStatus.OK);
+    public List<Country> countries(@RequestParam(required = false) String includeNeighbour,
+                                   @RequestParam(required = false) String excludedNeighbour){
+        return countryService.countries(includeNeighbour,excludedNeighbour);
     }
 
     @GetMapping("/countries/names")
-    public ResponseEntity<List<String>> countryNames(){
-        return new ResponseEntity<>(countryService.countryNames(), HttpStatus.OK);
+    public List<String> countryNames(){
+        return countryService.countryNames();
     }
 
     @GetMapping("/countries/{countryId}/capital")
-    public ResponseEntity<Optional<String>> countryCapital(@PathVariable("countryId") String id){
-        return new ResponseEntity<>(countryService.countryCapital(id), HttpStatus.OK);
+    public Optional<String> countryCapital(@PathVariable("countryId") String id){
+        return countryService.countryCapital(id);
     }
 
     @GetMapping("/countries/{countryId}/population")
-    public ResponseEntity<Long> countryPopulation(@PathVariable("countryId") String id){
-        return new ResponseEntity<>(countryService.countryPopulation(id), HttpStatus.OK);
+    public Long countryPopulation(@PathVariable("countryId") String id){
+        return countryService.countryPopulation(id);
     }
 
     @GetMapping("/countries/{continent}/continent")
-    public ResponseEntity<List<Country>> countryContinentList(@PathVariable("continent") String continent){
-        return new ResponseEntity<>(countryService.countryContinentList(continent), HttpStatus.OK);
+    public List<Country> countryContinentList(@PathVariable("continent") String continent){
+        return countryService.countryContinentList(continent);
     }
 
     @GetMapping("/countries/{countryId}/neighbours")
-    public ResponseEntity<List<String>> countryNeighbourList(@PathVariable("countryId") String countryId){
-        return new ResponseEntity<>(countryService.countryNeighboursList(countryId), HttpStatus.OK);
+    public List<String> countryNeighbourList(@PathVariable("countryId") String countryId){
+        return countryService.countryNeighboursList(countryId);
     }
 
     @GetMapping("/continents/{continent}/countries")
-    public ResponseEntity<List<Country>> coountryPopulationFilter(@PathVariable("continent") String continent, @RequestParam(required = false) Long minPopulation){
-        return new ResponseEntity<>(countryService.countryPopulationFilter(continent,minPopulation), HttpStatus.OK);
+    public List<Country> coountryPopulationFilter(@PathVariable("continent") String continent, @RequestParam(required = false) Long minPopulation){
+        return countryService.countryPopulationFilter(continent,minPopulation);
     }
 
     @GetMapping("countries/population")
-    public ResponseEntity<Map<String,Long>> coountryPopulationMap(){
-        return new ResponseEntity<>(countryService.countryPopulationMap(), HttpStatus.OK);
+    public Map<String,Long> coountryPopulationMap(){
+        return countryService.countryPopulationMap();
     }
 
     @GetMapping("continents/countries")
-    public ResponseEntity<Map<String,List<Country>>> continentCountryMap(){
-        return new ResponseEntity<>(countryService.continentCountryMap(), HttpStatus.OK);
+    public Map<String,List<Country>> continentCountryMap(){
+        return countryService.continentCountryMap();
     }
 }

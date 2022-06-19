@@ -1,8 +1,23 @@
 package ro.fasttrackit.homeworkcourse5.model;
 
-import java.util.function.Function;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public record Country(String id, String name, String capital, Long population,
-                      String area, String continent, String neighbours) {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+
+@Entity
+@AllArgsConstructor
+@Getter
+public class Country {
+    @Id
+    private final String id;
+    private final String name;
+    private final String capital;
+    private final Long population;
+    private final String area;
+    private final String continent;
+    private final String neighbours;
 }

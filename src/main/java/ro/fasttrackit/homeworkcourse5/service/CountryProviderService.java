@@ -1,8 +1,9 @@
 package ro.fasttrackit.homeworkcourse5.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import ro.fasttrackit.homeworkcourse5.model.Country;
+import ro.fasttrackit.homeworkcourse5.repository.CountryRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,9 +16,13 @@ public class CountryProviderService {
 
     private static final String COUNTRY_DATA = "C:\\ThisIsTheBestIcouldAtTheTime\\FasttrackFolderOrganizer\\Curs5\\tema\\homework-course-5\\src\\main\\resources\\countries.txt";
 
+    private final CountryRepository countryRepository;
+
+    public CountryProviderService(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
+    }
 
     public List<Country> readCountries() {
-
         try {
             return Files.lines(Path.of(COUNTRY_DATA))
                     .map(line -> {
@@ -36,5 +41,6 @@ public class CountryProviderService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 }
